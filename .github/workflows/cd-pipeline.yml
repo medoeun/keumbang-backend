@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      JWT_EXPIRATION: ${{ secrets.JWT_EXPIRATION }}
       DB_URL: ${{ secrets.DB_URL }}
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
@@ -25,17 +26,7 @@ jobs:
           java-version: '17'
           distribution: 'corretto'
 
-      - name: application.yml 생성
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.PROPERTIES }}" > ./application.yml
-        shell: bash
-      - name: 빌드 권한 부여
-        run: chmod +x gradlew
-
-      - name: 프로젝트 jar 파일 제작
-        run: |
+      - name: 빌드 권한 부여 및 프로젝트 jar 파일 제작
           chmod +x gradlew 
           ./gradlew bootJar
 
