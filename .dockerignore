@@ -1,0 +1,26 @@
+# Git 관련 파일
+.git
+.gitignore
+
+# 빌드 결과물 (Gradle, Maven)
+build
+target
+
+# IDE 및 편집기 관련 파일
+.idea
+*.iml
+.vscode
+
+# 로그 파일
+*.log
+
+# OS에서 생성되는 파일
+.DS_Store
+Thumbs.db
+
+# 환경 변수 파일 (보통 민감한 정보 포함)
+.env
+
+# 기타 불필요한 파일 및 폴더
+node_modules
+coverage

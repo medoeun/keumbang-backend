@@ -27,7 +27,8 @@ jobs:
           distribution: 'corretto'
 
       - name: 빌드 권한 부여 및 프로젝트 jar 파일 제작
-          chmod +x gradlew 
+        run: |
+          chmod +x gradlew
           ./gradlew bootJar
 
       - name: 웹 이미지 빌드 및 도커허브에 push

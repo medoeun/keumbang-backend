@@ -1,4 +1,5 @@
 rootProject.name = 'keumbang-backend'
 
-include 'auth-server', 'resource-server'
+include 'auth-server', 'resource-server', 'common'
+include 'common'
 

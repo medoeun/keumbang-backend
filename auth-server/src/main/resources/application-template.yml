@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: auth-server
+  datasource:
+    url: jdbc:mariadb://localhost:3307/${AUTH_DB_NAME}
+    username: ${AUTH_DB_USER}
+    password: ${AUTH_DB_PASSWORD}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000  # 1 hour in milliseconds
+
+batch:
+  seoul:
+    auth_key: ${AUTH_KEY}
+    chunk_size: 100
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
