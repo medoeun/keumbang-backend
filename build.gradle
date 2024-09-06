@@ -127,4 +127,12 @@ project(':common') {
     jar {
         enabled = true
     }
+    // common 모듈에서 Jacoco 리포트를 생성하지 않도록 설정
+    tasks.withType(Test) {
+        finalizedBy jacocoTestReport
+    }
+
+    jacocoTestReport {
+        enabled = false  // Jacoco 리포트 생성을 비활성화
+    }
 }
