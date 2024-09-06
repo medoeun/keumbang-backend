@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  auth-db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${AUTH_DB_PASSWORD}
+      MYSQL_DATABASE: ${AUTH_DB_NAME}
+      MYSQL_USER: ${AUTH_DB_USER}
+      MYSQL_PASSWORD: ${AUTH_DB_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - auth-db-data:/var/lib/mysql
+    networks:
+      - mariadb-network
+
+  resource-db:
+    image: mariadb:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${RESOURCE_DB_PASSWORD}
+      MYSQL_DATABASE: ${RESOURCE_DB_NAME}
+      MYSQL_USER: ${RESOURCE_DB_USER}
+      MYSQL_PASSWORD: ${RESOURCE_DB_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - resource-db-data:/var/lib/mysql
+    networks:
+      - mariadb-network
+
+networks:
+  mariadb-network:
+    driver: bridge
+
+volumes:
+  auth-db-data:
+  resource-db-data:
