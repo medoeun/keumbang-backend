@@ -208,5 +208,6 @@ gradle-app.setting
 application.yml
 **/src/main/generated/**
 !/src/test/resources/application.yml
+.github/workflows/cd-pipeline.yml
 .env
 *.iml
