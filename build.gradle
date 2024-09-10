@@ -109,13 +109,37 @@ subprojects {
 
 project(':auth-server') {
     dependencies {
-        implementation project(':common')  // common 모듈 참조
+        implementation project(':common')
+    }
+
+    tasks.withType(Test) {
+        finalizedBy jacocoTestReport
+    }
+
+    jacocoTestReport {
+        reports {
+            html.required = true
+            xml.required = true
+            csv.required = false
+        }
     }
 }
 
 project(':resource-server') {
     dependencies {
-        implementation project(':common')  // common 모듈 참조
+        implementation project(':common')
+    }
+
+    tasks.withType(Test) {
+        finalizedBy jacocoTestReport
+    }
+
+    jacocoTestReport {
+        reports {
+            html.required = true
+            xml.required = true
+            csv.required = false
+        }
     }
 }
 
