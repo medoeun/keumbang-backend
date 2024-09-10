@@ -17,8 +17,8 @@ import org.keumbang.module.user.entity.User;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Table(name = "orders")
 public class Order extends BaseEntity {
