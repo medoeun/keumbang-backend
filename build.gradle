@@ -119,6 +119,42 @@ project(':resource-server') {
     }
 }
 
+project(':auth-server') {
+    dependencies {
+        implementation project(':common')
+    }
+
+    tasks.withType(Test) {
+        finalizedBy jacocoTestReport
+    }
+
+    jacocoTestReport {
+        reports {
+            html.required = true
+            xml.required = true
+            csv.required = false
+        }
+    }
+}
+
+project(':resource-server') {
+    dependencies {
+        implementation project(':common')
+    }
+
+    tasks.withType(Test) {
+        finalizedBy jacocoTestReport
+    }
+
+    jacocoTestReport {
+        reports {
+            html.required = true
+            xml.required = true
+            csv.required = false
+        }
+    }
+}
+
 project(':common') {
     // common 모듈은 실행 가능한 애플리케이션이 아니므로 bootJar 비활성화
     bootJar {
