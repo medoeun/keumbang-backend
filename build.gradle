@@ -109,18 +109,6 @@ subprojects {
 
 project(':auth-server') {
     dependencies {
-        implementation project(':common')  // common 모듈 참조
-    }
-}
-
-project(':resource-server') {
-    dependencies {
-        implementation project(':common')  // common 모듈 참조
-    }
-}
-
-project(':auth-server') {
-    dependencies {
         implementation project(':common')
     }
 
