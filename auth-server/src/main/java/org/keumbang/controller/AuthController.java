@@ -35,10 +35,10 @@ public class AuthController {
 	private JwtManager jwtManager;
 
 	@Autowired
-	private RefreshTokenService refreshTokenService;  // RefreshTokenService 인스턴스 주입
+	private RefreshTokenService refreshTokenService;
 
 	@Autowired
-	private CustomUserDetailsService customUserDetailsService;  // UserDetailsService 주입
+	private CustomUserDetailsService customUserDetailsService;
 
 	@PostMapping("/login")
 	public BaseApiResponse<JwtResponse> login(@RequestBody LoginRequest loginRequest) {
@@ -65,11 +65,11 @@ public class AuthController {
 
 	@PostMapping("/refresh-token")
 	public ResponseEntity<BaseApiResponse<JwtResponse>> refreshToken(@RequestBody TokenRefreshRequest request) {
-		String refreshToken = request.getRefreshToken();  // 요청에서 Refresh Token 추출
+		String refreshToken = request.getRefreshToken();
 
 		return refreshTokenService.findByToken(refreshToken)
 			.map(refreshTokenService::verifyExpiration)  // 만료 확인
-			.map(RefreshToken::getUser)  // 사용자 정보 가져오기
+			.map(RefreshToken::getUser)
 			.map(user -> {
 				UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
 				String newAccessToken = jwtManager.generateTokenForRefreshToken(userDetails);  // 새로운 Access Token 생성
