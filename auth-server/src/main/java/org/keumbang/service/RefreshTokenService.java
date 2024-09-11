@@ -18,14 +18,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class RefreshTokenService {
 
+	@Value("${jwt.refresh-token-expiration-ms}")
+	private Long refreshTokenExpirationMs;
+
 	@Autowired
 	private RefreshTokenRepository refreshTokenRepository;
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Value("${jwt.refresh-token-expiration-ms}")
-	private Long refreshTokenExpirationMs;
 
 	public Optional<RefreshToken> findByToken(String token) {
 		return refreshTokenRepository.findByToken(token);

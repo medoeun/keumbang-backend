@@ -10,5 +10,6 @@ spring:
       ddl-auto: create-drop
 
 jwt:
-  secret: 4HKq8zSkQ9bXPlvJZXzWkpNwE3pC1vXzMZrtNlPaxKo=
-  token-validity-in-seconds: 3600000
+  secret: ${JWT_SECRET:4HKq8zSkQ9bXPlvJZXzWkpNwE3pC1vXzMZrtNlPaxKo=}  # Base64 인코딩된 기본값 설정
+  token-validity-in-seconds: ${JWT_EXPIRATION:3600}  # 기본값 3600초
+  refresh-token-expiration-ms: ${JWT_REFRESH_EXPIRATION:604800000}  # 기본값 7일 (밀리초)
