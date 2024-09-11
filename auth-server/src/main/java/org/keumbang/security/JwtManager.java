@@ -63,6 +63,35 @@ public class JwtManager {
 		return token;
 	}
 
+	public String generateTokenForRefreshToken(UserDetails userDetails) {
+		CustomUserDetails customUserDetails = (CustomUserDetails) userDetails;
+		Long id = customUserDetails.getMemberId();
+		String username = customUserDetails.getUsername();
+		String role = customUserDetails.getRole();
+
+		// JWT 페이로드 설정
+		Claims claims = Jwts.claims().setSubject(String.valueOf(id));
+		claims.put(CLAIM_USER_ID, id);
+		claims.put(CLAIM_USERNAME, username);
+		claims.put(CLAIM_USER_ROLE, role);
+
+		Date now = new Date();
+		Date validity = new Date(now.getTime() + tokenValidityInseconds * 1000);
+
+		// JWT 생성
+		String token = Jwts.builder()
+			.setClaims(claims)
+			.setIssuedAt(now)   // 발급 시간
+			.setExpiration(validity)    // 만료 시간
+			.signWith(secretKey, SignatureAlgorithm.HS256)  // 서명
+			.compact();
+
+		log.info("Refresh Token 생성: 사용자 계정 = {}, 만료시간 = {}", username, validity);
+		return token;
+	}
+
+
+
 	// HTTP 요청 헤더에서 JWT 토큰을 추출
 	public String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");

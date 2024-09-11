@@ -31,6 +31,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		);
 	}
 
+	// TokenRefreshException 예외 처리
+	@ExceptionHandler(TokenRefreshException.class)
+	public ResponseEntity<BaseApiResponse<String>> handleTokenRefreshException(TokenRefreshException ex) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+			.body(BaseApiResponse.failure("토큰 갱신 실패: " + ex.getMessage()));
+	}
+
 	// 기타 예외 처리
 	@ExceptionHandler(Exception.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
