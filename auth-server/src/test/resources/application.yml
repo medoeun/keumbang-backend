@@ -10,5 +10,5 @@ spring:
       ddl-auto: create-drop
 
 jwt:
-  secret: ${JWT_SECRET:4HKq8zSkQ9bXPlvJZXzWkpNwE3pC1vXzMZrtNlPaxKo=}
+  secret: ${JWT_SECRET}
   token-validity-in-seconds: ${JWT_EXPIRATION:3600}
