@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import org.keumbang.entity.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
@@ -23,6 +24,9 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public String getUsername() {
 		return user.getUsername();
+	}
+	public String getRole() {
+		return user.getRole();  // 역할 정보를 직접 반환
 	}
 
 	@Override
@@ -56,7 +60,8 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return Collections.emptyList();
+		// Collections.singletonList : 하나의 요소를 가진 불변 리스트 생성
+		return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
 	}
 
 	public Long getMemberId() {

@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtManager {
 	private static final String CLAIM_USER_ID = "id";
 	private static final String CLAIM_USERNAME = "username";
+	private static final String CLAIM_USER_ROLE = "role";
 
 	private final Key secretKey;
 
@@ -40,11 +41,13 @@ public class JwtManager {
 		CustomUserDetails userDetails = (CustomUserDetails)authentication.getPrincipal();
 		Long id = userDetails.getMemberId();
 		String username = userDetails.getUsername();
+		String role = userDetails.getRole();
 
 		// JWT 토큰에 포함되는 정보(페이로드): jwt의 주체 memberId로
 		Claims claims = Jwts.claims().setSubject(String.valueOf(id));
 		claims.put(CLAIM_USER_ID, id);
 		claims.put(CLAIM_USERNAME, username);
+		claims.put(CLAIM_USER_ROLE, role);  // 역할 정보를 JWT에 추가
 
 		Date now = new Date();
 		Date validity = new Date(now.getTime() + tokenValidityInseconds * 1000);
@@ -93,6 +96,16 @@ public class JwtManager {
 			.parseClaimsJws(token)
 			.getBody()
 			.get(CLAIM_USERNAME, String.class);
+	}
+
+	// JWT 토큰에서 role 추출
+	public String getRole(String token) {
+		return Jwts.parserBuilder()
+			.setSigningKey(secretKey)
+			.build()
+			.parseClaimsJws(token)
+			.getBody()
+			.get(CLAIM_USER_ROLE, String.class);  // role을 추출
 	}
 
 	// JWT 토큰 유효성 검증
