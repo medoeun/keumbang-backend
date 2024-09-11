@@ -52,15 +52,16 @@ public class AuthController {
 		);
 		log.info("AuthenticationManager 호출 후 - 인증 성공");
 
-		// 문제 없을 시 JWT 토큰 생성
-		String token = jwtManager.generateToken(authentication);
-		log.info("JWT 생성: {}", token);
+		// Access Token 생성
+		String accessToken = jwtManager.generateToken(authentication);
+		log.info("JWT 생성: {}", accessToken);
+
+		// Refresh Token 생성 및 저장
+		RefreshToken refreshToken = refreshTokenService.createRefreshToken(authentication.getName());
 
 		log.info("로그인 성공: {}", loginRequest.getUsername());
-		JwtResponse jwtRes = new JwtResponse(token);
-
+		JwtResponse jwtRes = new JwtResponse(accessToken, refreshToken.getToken());
 		return BaseApiResponse.success("로그인 성공", jwtRes);
-
 	}
 
 	@PostMapping("/refresh-token")
@@ -73,7 +74,7 @@ public class AuthController {
 			.map(user -> {
 				UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
 				String newAccessToken = jwtManager.generateTokenForRefreshToken(userDetails);  // 새로운 Access Token 생성
-				return ResponseEntity.ok(BaseApiResponse.success("Access Token 갱신 성공", new JwtResponse(newAccessToken)));
+				return ResponseEntity.ok(BaseApiResponse.success("Access Token 갱신 성공", new JwtResponse(newAccessToken, refreshToken)));
 			})
 			.orElseThrow(() -> new TokenRefreshException("유효하지 않은 Refresh Token 입니다."));
 	}

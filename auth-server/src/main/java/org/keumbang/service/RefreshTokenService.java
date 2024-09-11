@@ -6,11 +6,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.keumbang.entity.RefreshToken;
+import org.keumbang.entity.User;
 import org.keumbang.exception.TokenRefreshException;
 import org.keumbang.repository.RefreshTokenRepository;
 import org.keumbang.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,9 +32,12 @@ public class RefreshTokenService {
 	}
 
 	// Refresh Token 생성
-	public RefreshToken createRefreshToken(Long userId) {
+	public RefreshToken createRefreshToken(String username) {
+		User user = userRepository.findByUsername(username)
+			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
+
 		RefreshToken refreshToken = RefreshToken.builder()
-			.user(userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found")))
+			.user(user)
 			.token(UUID.randomUUID().toString())  // 고유한 토큰 값 생성
 			.expiryDate(LocalDateTime.now().plus(Duration.ofMillis(refreshTokenExpirationMs)))  //  밀리초 단위로 시간을 설정하고 LocalDateTime.now()에 더하여 만료 시간 설정
 			.build();
