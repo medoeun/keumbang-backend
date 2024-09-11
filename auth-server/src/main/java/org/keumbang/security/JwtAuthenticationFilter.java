@@ -1,7 +1,6 @@
 package org.keumbang.security;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,9 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		if (token != null && jwtManager.isValidToken(token)) {
 			String username = jwtManager.getUsername(token);
 			String role = jwtManager.getRole(token);
-
-			// JWT에서 권한 정보 추출
-			GrantedAuthority authority = new SimpleGrantedAuthority(role);
 
 			// UserDetailsService를 통해 UserDetails를 로드
 			var userDetails = userDetailsService.loadUserByUsername(username);
